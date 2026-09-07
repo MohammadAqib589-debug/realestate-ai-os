@@ -1,0 +1,11 @@
+{
+  "name": "Sarah Mitchell",
+  "email": "sarah@example.com",
+  "phone": "+61000000000",
+  "source": "website_chat",
+  "message": "I'm looking to buy a 3 bedroom house in Parramatta with a budget around AUD 900,000. I'd like to move within 2 months.",
+  "property_type": "house",
+  "suburb": "Parramatta",
+  "budget": "AUD 900,000",
+  "timeline": "within 2 months"
+}
