@@ -1,0 +1,2292 @@
+{
+  "name": "RealEstate_AI_OS_Merged_v2",
+  "nodes": [
+    {
+      "id": "note-1",
+      "name": "Note - note-1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        -1060
+      ],
+      "parameters": {
+        "content": "MODULE 1 - INTAKE\nAll channels normalize to one lead shape + input validation.",
+        "height": 140,
+        "width": 900,
+        "color": 4
+      }
+    },
+    {
+      "id": "note-2",
+      "name": "Note - note-2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        900,
+        -1060
+      ],
+      "parameters": {
+        "content": "MODULE 2 - AI QUALIFICATION\nDeterministic Gemini (temp 0), strict JSON, spam gate, score clamping.",
+        "height": 140,
+        "width": 1000,
+        "color": 5
+      }
+    },
+    {
+      "id": "note-3",
+      "name": "Note - note-3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1940,
+        -1060
+      ],
+      "parameters": {
+        "content": "MODULE 3 - DUPLICATE DETECTION + CRM\nMulti-field match, agent assignment, upsert with full schema.",
+        "height": 140,
+        "width": 900,
+        "color": 6
+      }
+    },
+    {
+      "id": "note-4",
+      "name": "Note - note-4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2880,
+        -1060
+      ],
+      "parameters": {
+        "content": "MODULE 4 - ROUTING + NOTIFICATIONS\nHot/Warm/Cold routing. Gmail + Slack alerts on hot leads.",
+        "height": 140,
+        "width": 900,
+        "color": 7
+      }
+    },
+    {
+      "id": "note-5",
+      "name": "Note - note-5",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        -60
+      ],
+      "parameters": {
+        "content": "MODULE 5 - BOOKING\nOffer next 3 slots -> customer confirms -> event created. Reschedule/cancel supported.",
+        "height": 140,
+        "width": 2200,
+        "color": 3
+      }
+    },
+    {
+      "id": "note-6",
+      "name": "Note - note-6",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2200,
+        -60
+      ],
+      "parameters": {
+        "content": "MODULE 6 - MISSED CALL RECOVERY",
+        "height": 140,
+        "width": 760,
+        "color": 3
+      }
+    },
+    {
+      "id": "note-7",
+      "name": "Note - note-7",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        700
+      ],
+      "parameters": {
+        "content": "MODULE 7 - FOLLOW-UP SEQUENCE ENGINE\nDaily scan of CRM. Day 1/3/7/14 stages. Stops on reply/booking/opt-out.",
+        "height": 140,
+        "width": 1700,
+        "color": 2
+      }
+    },
+    {
+      "id": "note-8",
+      "name": "Note - note-8",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1740,
+        700
+      ],
+      "parameters": {
+        "content": "MODULE 8 - AI LISTING WRITER\nGenerates 13 content variants per property.",
+        "height": 140,
+        "width": 1200,
+        "color": 2
+      }
+    },
+    {
+      "id": "note-9",
+      "name": "Note - note-9",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        1400
+      ],
+      "parameters": {
+        "content": "MODULE 9 - ANALYTICS\nEvent log + scheduled summary rollup.",
+        "height": 140,
+        "width": 1700,
+        "color": 1
+      }
+    },
+    {
+      "id": "note-10",
+      "name": "Note - note-10",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1740,
+        1400
+      ],
+      "parameters": {
+        "content": "MODULE 10 - GLOBAL ERROR HANDLING\nCatches failures from anywhere in the workflow.",
+        "height": 140,
+        "width": 1200,
+        "color": 1
+      }
+    },
+    {
+      "id": "w-site",
+      "name": "Website Chat Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -40,
+        -900
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "website-chat",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "w-form",
+      "name": "Contact Form Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -40,
+        -840
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "contact-form",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "w-wa",
+      "name": "WhatsApp Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -40,
+        -780
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "whatsapp-inbound",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "w-fb",
+      "name": "Messenger Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -40,
+        -720
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "messenger-inbound",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "w-voice",
+      "name": "Voice Receptionist Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -40,
+        -660
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "voice-receptionist",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "c-normalize",
+      "name": "Normalize + Validate Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        -780
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst body = $json.body || $json;\nlet channel = 'unknown';\nif ($('Website Chat Webhook').isExecuted) channel = 'website_chat';\nif ($('Contact Form Webhook').isExecuted) channel = 'contact_form';\nif ($('WhatsApp Webhook').isExecuted) channel = 'whatsapp';\nif ($('Messenger Webhook').isExecuted) channel = 'messenger';\nif ($('Voice Receptionist Webhook').isExecuted) channel = 'voice';\n\nconst message = (body.message || body.text || body.transcript || body.query || '').toString().trim();\nconst name = (body.name || body.senderName || body.callerName || '').toString().trim();\nconst phone = (body.phone || body.from || body.callerNumber || '').toString().trim();\nconst email = (body.email || '').toString().trim();\nconst conversationId = body.conversationId || body.conversation_id || (channel + '-' + (phone || email || Date.now()));\nconst channelId = body.channelId || body.channel_id || body.senderId || '';\n\nconst missingFields = [];\nif (!message) missingFields.push('message');\nif (!phone && !email) missingFields.push('phone_or_email');\n\nreturn { json: {\n  channel, conversation_id: conversationId, channel_id: channelId,\n  raw_message: message, contact_name: name, contact_phone: phone, contact_email: email,\n  received_at: new Date().toISOString(),\n  is_valid: missingFields.length === 0, missing_fields: missingFields,\n  source_payload: body\n}};\n"
+      }
+    },
+    {
+      "id": "h-gemini-qualify",
+      "name": "Gemini Qualify Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        500,
+        -780
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "={{$credentials.geminiApi.apiKey}}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ generationConfig: { temperature: 0, responseMimeType: 'application/json' }, contents: [ { parts: [ { text: \"You are a deterministic real estate lead qualification engine for an Australian agency. Return ONLY JSON matching exactly this schema, no prose, no markdown fences: { intent: 'buyer'|'seller'|'tenant'|'general', property_type: string, suburb: string, budget: string, bedrooms: string, bathrooms: string, timeline: string, finance_approved: string, sentiment: 'positive'|'neutral'|'negative', urgency: 'low'|'medium'|'high', spam_probability: number, confidence: number, lead_score: number, lead_tier: 'hot'|'warm'|'cold', next_action: string, reasoning: string, ai_reply: string }. lead_score is 0-100. confidence and spam_probability are 0-1. Message: \" + $json.raw_message + \" Contact name: \" + $json.contact_name }] }] }) }}",
+        "options": {
+          "timeout": 25000
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "c-parse-qualify",
+      "name": "Parse + Validate AI Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        780,
+        -780
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst intake = $('Normalize + Validate Input').item.json;\nfunction clamp(n, lo, hi) { n = Number(n); if (isNaN(n)) return lo; return Math.max(lo, Math.min(hi, n)); }\n\nlet parsed = {};\nlet parseOk = true;\ntry {\n  const rawText = ($json.candidates && $json.candidates[0] && $json.candidates[0].content &&\n    $json.candidates[0].content.parts && $json.candidates[0].content.parts[0] &&\n    $json.candidates[0].content.parts[0].text) || '{}';\n  const cleaned = rawText.replace(/```json/g, '').replace(/```/g, '').trim();\n  parsed = JSON.parse(cleaned);\n} catch (e) {\n  parseOk = false;\n  parsed = {};\n}\n\nreturn { json: {\n  channel: intake.channel, conversation_id: intake.conversation_id, channel_id: intake.channel_id,\n  contact_name: intake.contact_name, contact_phone: intake.contact_phone, contact_email: intake.contact_email,\n  raw_message: intake.raw_message, received_at: intake.received_at,\n  intent: parsed.intent || 'general', property_type: parsed.property_type || '', suburb: parsed.suburb || '',\n  budget: parsed.budget || '', bedrooms: parsed.bedrooms || '', bathrooms: parsed.bathrooms || '',\n  timeline: parsed.timeline || '', finance_approved: parsed.finance_approved || 'unknown',\n  sentiment: parsed.sentiment || 'neutral', urgency: parsed.urgency || 'low',\n  spam_probability: clamp(parsed.spam_probability != null ? parsed.spam_probability : 0, 0, 1),\n  ai_confidence: clamp(parsed.confidence != null ? parsed.confidence : 0.5, 0, 1),\n  lead_score: parseOk ? clamp(parsed.lead_score != null ? parsed.lead_score : 0, 0, 100) : 0,\n  lead_tier: parseOk ? (parsed.lead_tier || 'cold') : 'cold',\n  next_action: parsed.next_action || 'manual_review', ai_reasoning: parsed.reasoning || '',\n  ai_reply: parsed.ai_reply || 'Thanks for reaching out - one of our agents will be in touch shortly.',\n  ai_parse_ok: parseOk\n}};\n"
+      }
+    },
+    {
+      "id": "if-spam",
+      "name": "Spam Filter Gate",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1040,
+        -780
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "cond-spam",
+              "leftValue": "={{ $json.spam_probability }}",
+              "rightValue": 0.75,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "g-log-spam",
+      "name": "Log Spam Lead (Sheets)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1300,
+        -620
+      ],
+      "parameters": {
+        "resource": "sheet",
+        "operation": "append",
+        "documentId": {
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "mode": "list",
+          "value": "SpamLog"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "contact_phone": "={{ $json.contact_phone }}",
+            "contact_email": "={{ $json.contact_email }}",
+            "raw_message": "={{ $json.raw_message }}",
+            "spam_probability": "={{ $json.spam_probability }}",
+            "logged_at": "={{ new Date().toISOString() }}"
+          }
+        },
+        "options": {}
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "g-search-email",
+      "name": "Search CRM by Email",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1300,
+        -900
+      ],
+      "parameters": {
+        "resource": "sheet",
+        "operation": "read",
+        "documentId": {
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "mode": "list",
+          "value": "CRM"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "email",
+              "lookupValue": "={{ $json.contact_email }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "g-search-phone",
+      "name": "Search CRM by Phone",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1300,
+        -780
+      ],
+      "parameters": {
+        "resource": "sheet",
+        "operation": "read",
+        "documentId": {
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "mode": "list",
+          "value": "CRM"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "phone",
+              "lookupValue": "={{ $json.contact_phone }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "c-dedupe-crm",
+      "name": "Match Duplicate + Assign Agent + Build CRM Record",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1560,
+        -840
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "\nconst lead = $('Spam Filter Gate').first().json;\nconst emailMatches = $('Search CRM by Email').all().map(i => i.json).filter(r => r && r.email);\nconst phoneMatches = $('Search CRM by Phone').all().map(i => i.json).filter(r => r && r.phone);\n\nlet existing = null;\nif (emailMatches.length) existing = emailMatches[0];\nelse if (phoneMatches.length) existing = phoneMatches[0];\nelse {\n  const nameLower = (lead.contact_name || '').toLowerCase();\n  const combined = [...emailMatches, ...phoneMatches];\n  existing = combined.find(r => (r.name || '').toLowerCase() === nameLower && r.phone === lead.contact_phone) || null;\n}\nconst isDuplicate = !!existing;\nconst leadId = isDuplicate ? existing.lead_id : ('lead_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8));\n\n// --- Agent assignment rules ---\nconst rules = [\n  { match: l => l.property_type && l.property_type.toLowerCase().includes('luxury'), agent: 'Agent - Luxury Specialist' },\n  { match: l => l.intent === 'tenant', agent: 'Agent - Rentals' },\n  { match: l => l.suburb && ['bondi', 'manly', 'toorak'].includes(l.suburb.toLowerCase()), agent: 'Agent - Premium Suburbs' }\n];\nlet assignedAgent = null;\nfor (const r of rules) { if (r.match(lead)) { assignedAgent = r.agent; break; } }\nif (!assignedAgent) {\n  const staticData = $getWorkflowStaticData('global');\n  const pool = ['Agent A', 'Agent B', 'Agent C'];\n  staticData.rrIndex = ((staticData.rrIndex || 0) + 1) % pool.length;\n  assignedAgent = pool[staticData.rrIndex];\n}\n\nconst nowIso = new Date().toISOString();\nreturn [{ json: {\n  lead_id: leadId, conversation_id: lead.conversation_id, channel_id: lead.channel_id,\n  created_at: isDuplicate ? (existing.created_at || nowIso) : nowIso, updated_at: nowIso,\n  last_contact: nowIso, assigned_agent: isDuplicate ? (existing.assigned_agent || assignedAgent) : assignedAgent,\n  source: lead.channel, campaign: lead.source_payload && lead.source_payload.campaign ? lead.source_payload.campaign : '',\n  status: isDuplicate ? (existing.status || 'active') : 'new', lead_owner: isDuplicate ? existing.assigned_agent : assignedAgent,\n  ai_confidence: lead.ai_confidence, sentiment: lead.sentiment, priority: lead.urgency,\n  property_type: lead.property_type, bedrooms: lead.bedrooms, bathrooms: lead.bathrooms,\n  finance_status: lead.finance_approved, notes: lead.ai_reasoning,\n  audit_history: isDuplicate ? ((existing.audit_history || '') + ' | updated ' + nowIso) : ('created ' + nowIso),\n  name: lead.contact_name, phone: lead.contact_phone, email: lead.contact_email,\n  intent: lead.intent, suburb: lead.suburb, budget: lead.budget, timeline: lead.timeline,\n  lead_score: lead.lead_score, lead_tier: lead.lead_tier, next_action: lead.next_action,\n  ai_reply: lead.ai_reply, is_duplicate: isDuplicate, follow_up_stage: isDuplicate ? (existing.follow_up_stage || 0) : 0\n}}];\n"
+      }
+    },
+    {
+      "id": "g-upsert-crm",
+      "name": "Upsert CRM Record",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1820,
+        -840
+      ],
+      "parameters": {
+        "resource": "sheet",
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "mode": "list",
+          "value": "CRM"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "matchingColumns": [
+            "lead_id"
+          ],
+          "value": {
+            "lead_id": "={{ $json.lead_id }}",
+            "conversation_id": "={{ $json.conversation_id }}",
+            "channel_id": "={{ $json.channel_id }}",
+            "created_at": "={{ $json.created_at }}",
+            "updated_at": "={{ $json.updated_at }}",
+            "last_contact": "={{ $json.last_contact }}",
+            "assigned_agent": "={{ $json.assigned_agent }}",
+            "source": "={{ $json.source }}",
+            "campaign": "={{ $json.campaign }}",
+            "status": "={{ $json.status }}",
+            "lead_owner": "={{ $json.lead_owner }}",
+            "ai_confidence": "={{ $json.ai_confidence }}",
+            "sentiment": "={{ $json.sentiment }}",
+            "priority": "={{ $json.priority }}",
+            "property_type": "={{ $json.property_type }}",
+            "bedrooms": "={{ $json.bedrooms }}",
+            "bathrooms": "={{ $json.bathrooms }}",
+            "finance_status": "={{ $json.finance_status }}",
+            "notes": "={{ $json.notes }}",
+            "audit_history": "={{ $json.audit_history }}",
+            "name": "={{ $json.name }}",
+            "phone": "={{ $json.phone }}",
+            "email": "={{ $json.email }}",
+            "intent": "={{ $json.intent }}",
+            "suburb": "={{ $json.suburb }}",
+            "budget": "={{ $json.budget }}",
+            "timeline": "={{ $json.timeline }}",
+            "lead_score": "={{ $json.lead_score }}",
+            "lead_tier": "={{ $json.lead_tier }}",
+            "next_action": "={{ $json.next_action }}",
+            "follow_up_stage": "={{ $json.follow_up_stage }}"
+          }
+        },
+        "options": {}
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "sw-tier",
+      "name": "Route by Lead Tier",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2080,
+        -840
+      ],
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "c-hot",
+                    "leftValue": "={{ $json.lead_tier }}",
+                    "rightValue": "hot",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              },
+              "outputKey": "Hot"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "c-warm",
+                    "leftValue": "={{ $json.lead_tier }}",
+                    "rightValue": "warm",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              },
+              "outputKey": "Warm"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      }
+    },
+    {
+      "id": "m-notify-gmail",
+      "name": "Notify Agent - Gmail (Hot)",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2340,
+        -960
+      ],
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "sendTo": "agent@youragency.com.au",
+        "subject": "=Hot Lead: {{ $json.name }} - {{ $json.suburb }}",
+        "emailType": "text",
+        "message": "=New hot lead ({{ $json.lead_score }}/100) assigned to {{ $json.assigned_agent }}.\n\nName: {{ $json.name }}\nPhone: {{ $json.phone }}\nEmail: {{ $json.email }}\nIntent: {{ $json.intent }}\nSuburb: {{ $json.suburb }}\nBudget: {{ $json.budget }}\nUrgency: {{ $json.priority }}\nNext action: {{ $json.next_action }}",
+        "options": {}
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "h-notify-slack",
+      "name": "Notify Agent - Slack (Hot)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2340,
+        -840
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://hooks.slack.com/services/REPLACE/WITH/YOURWEBHOOK",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ text: ':fire: Hot lead: ' + $json.name + ' (' + $json.suburb + ') score ' + $json.lead_score + ' -> ' + $json.assigned_agent }) }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "s-warm",
+      "name": "Warm Lead Offer Message",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2340,
+        -720
+      ],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "outbound_message",
+              "type": "string",
+              "value": "=Hi {{ $json.name }}, thanks for your interest! Would you like to book a property inspection this week?"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "s-cold",
+      "name": "Cold Lead Nurture Tag",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2340,
+        -600
+      ],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "nurture_status",
+              "type": "string",
+              "value": "long_term_nurture"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "n-merge-routing",
+      "name": "Merge Routing Outputs",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2600,
+        -840
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "if-needs-booking",
+      "name": "Filter: Needs Booking?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2860,
+        -840
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "combinator": "or",
+          "conditions": [
+            {
+              "id": "b1",
+              "leftValue": "={{ $json.lead_tier }}",
+              "rightValue": "hot",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "b2",
+              "leftValue": "={{ $json.lead_tier }}",
+              "rightValue": "warm",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "g-check-avail",
+      "name": "Check Calendar Availability",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        -40,
+        100
+      ],
+      "parameters": {
+        "resource": "event",
+        "operation": "getAll",
+        "calendar": {
+          "mode": "list",
+          "value": ""
+        },
+        "timeMin": "={{ new Date().toISOString() }}",
+        "timeMax": "={{ new Date(Date.now() + 7*24*60*60*1000).toISOString() }}",
+        "options": {
+          "singleEvents": true,
+          "orderBy": "startTime",
+          "timeZone": "Australia/Sydney"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "c-compute-slots",
+      "name": "Compute Next 3 Available Slots",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        200,
+        100
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "\nconst lead = $('Filter: Needs Booking?').first().json;\nconst busy = $input.all().map(i => i.json).filter(e => e.start && e.start.dateTime).map(e => ({\n  start: new Date(e.start.dateTime), end: new Date(e.end.dateTime)\n}));\n\nconst businessStartHour = 9, businessEndHour = 17, slotMinutes = 45, travelBufferMinutes = 30;\nfunction overlaps(s, e) { return busy.some(b => s < b.end && e > b.start); }\n\nlet day = new Date();\nday.setHours(0, 0, 0, 0);\nday.setDate(day.getDate() + 1);\n\nconst slots = [];\nfor (let dayOffset = 0; dayOffset < 10 && slots.length < 3; dayOffset++) {\n  const d = new Date(day);\n  d.setDate(d.getDate() + dayOffset);\n  if (d.getDay() === 0) continue; // skip Sunday\n  for (let hour = businessStartHour; hour < businessEndHour && slots.length < 3; hour++) {\n    for (let min = 0; min < 60 && slots.length < 3; min += 60) {\n      const s = new Date(d); s.setHours(hour, min, 0, 0);\n      const e = new Date(s.getTime() + (slotMinutes + travelBufferMinutes) * 60000);\n      if (!overlaps(s, e)) slots.push({ start: s.toISOString(), end: new Date(s.getTime() + slotMinutes * 60000).toISOString() });\n    }\n  }\n}\nreturn [{ json: { lead_id: lead.lead_id, name: lead.name, email: lead.email, phone: lead.phone, suburb: lead.suburb, slots } }];\n"
+      }
+    },
+    {
+      "id": "m-send-options",
+      "name": "Send Slot Options Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        460,
+        100
+      ],
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "sendTo": "={{ $json.email }}",
+        "subject": "Choose Your Inspection Time",
+        "emailType": "text",
+        "message": "=Hi {{ $json.name }}, here are 3 available inspection times for {{ $json.suburb }}:\n\n1) {{ $json.slots[0].start }}\n2) {{ $json.slots[1] ? $json.slots[1].start : 'n/a' }}\n3) {{ $json.slots[2] ? $json.slots[2].start : 'n/a' }}\n\nReply with 1, 2 or 3 to confirm, quoting lead ID {{ $json.lead_id }}.",
+        "options": {}
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "w-confirm-booking",
+      "name": "Booking Confirmation Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        720,
+        100
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "confirm-booking",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "c-validate-confirm",
+      "name": "Validate Booking Selection",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        980,
+        100
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst body = $json.body || $json;\nconst validSelection = ['1', '2', '3'].includes(String(body.selection));\nreturn { json: {\n  lead_id: body.lead_id || '', selection: body.selection, is_valid: validSelection,\n  slot_start: body.slot_start || '', slot_end: body.slot_end || '',\n  name: body.name || '', email: body.email || ''\n}};\n"
+      }
+    },
+    {
+      "id": "g-create-event",
+      "name": "Create Calendar Event",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        1240,
+        100
+      ],
+      "parameters": {
+        "resource": "event",
+        "operation": "create",
+        "calendar": {
+          "mode": "list",
+          "value": ""
+        },
+        "start": "={{ $json.slot_start }}",
+        "end": "={{ $json.slot_end }}",
+        "additionalFields": {
+          "summary": "=Property Inspection - {{ $json.name }}",
+          "description": "=Lead ID: {{ $json.lead_id }}",
+          "attendees": "={{ $json.email }}"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "m-send-confirm",
+      "name": "Send Booking Confirmation Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1500,
+        100
+      ],
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "sendTo": "={{ $('Validate Booking Selection').item.json.email }}",
+        "subject": "Inspection Confirmed",
+        "emailType": "text",
+        "message": "=Hi {{ $('Validate Booking Selection').item.json.name }}, your inspection is confirmed for {{ $('Validate Booking Selection').item.json.slot_start }}. See you there!",
+        "options": {}
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "g-update-crm-booked",
+      "name": "Update CRM - Booked",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1760,
+        100
+      ],
+      "parameters": {
+        "resource": "sheet",
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "mode": "list",
+          "value": "CRM"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "matchingColumns": [
+            "lead_id"
+          ],
+          "value": {
+            "lead_id": "={{ $('Validate Booking Selection').item.json.lead_id }}",
+            "status": "booked",
+            "updated_at": "={{ new Date().toISOString() }}"
+          }
+        },
+        "options": {}
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "w-reschedule",
+      "name": "Reschedule or Cancel Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        720,
+        320
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "booking-reschedule-cancel",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "sw-resched",
+      "name": "Reschedule or Cancel?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        980,
+        320
+      ],
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "r1",
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "reschedule",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              },
+              "outputKey": "Reschedule"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "r2",
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "cancel",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              },
+              "outputKey": "Cancel"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      }
+    },
+    {
+      "id": "g-update-event",
+      "name": "Update Calendar Event",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        1240,
+        260
+      ],
+      "parameters": {
+        "resource": "event",
+        "operation": "update",
+        "calendar": {
+          "mode": "list",
+          "value": ""
+        },
+        "eventId": "={{ $json.body.event_id }}",
+        "updateFields": {
+          "start": "={{ $json.body.new_start }}",
+          "end": "={{ $json.body.new_end }}"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "g-cancel-event",
+      "name": "Cancel Calendar Event",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        1240,
+        380
+      ],
+      "parameters": {
+        "resource": "event",
+        "operation": "delete",
+        "calendar": {
+          "mode": "list",
+          "value": ""
+        },
+        "eventId": "={{ $json.body.event_id }}"
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "g-update-crm-resched",
+      "name": "Update CRM - Reschedule/Cancel",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1500,
+        320
+      ],
+      "parameters": {
+        "resource": "sheet",
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "mode": "list",
+          "value": "CRM"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "matchingColumns": [
+            "lead_id"
+          ],
+          "value": {
+            "lead_id": "={{ $json.body.lead_id }}",
+            "status": "={{ $json.body.action === 'cancel' ? 'cancelled' : 'rescheduled' }}",
+            "updated_at": "={{ new Date().toISOString() }}"
+          }
+        },
+        "options": {}
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "w-missed-call",
+      "name": "Missed Call Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        2200,
+        100
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "missed-call",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "tw-recovery-sms",
+      "name": "Send Recovery SMS",
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [
+        2460,
+        100
+      ],
+      "parameters": {
+        "resource": "sms",
+        "operation": "send",
+        "from": "+61400000000",
+        "to": "={{ $json.body.CallerNumber || $json.body.from }}",
+        "message": "=Hi, sorry we missed your call! Reply here and we will help right away, or let us know a good time for a property inspection."
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "c-missed-crm-update",
+      "name": "Prepare Missed Call CRM Update",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2200,
+        220
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst body = $('Missed Call Webhook').item.json.body || {};\nreturn { json: {\n  lead_id: 'call_' + Date.now(), phone: body.CallerNumber || body.from || '',\n  status: 'missed_call_recovery', recovery_sms_sent: true, missed_call_at: new Date().toISOString()\n}};\n"
+      }
+    },
+    {
+      "id": "g-missed-crm-update",
+      "name": "Log Missed Call (CRM)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2460,
+        220
+      ],
+      "parameters": {
+        "resource": "sheet",
+        "operation": "append",
+        "documentId": {
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "mode": "list",
+          "value": "CRM"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "lead_id": "={{ $json.lead_id }}",
+            "phone": "={{ $json.phone }}",
+            "status": "={{ $json.status }}",
+            "created_at": "={{ $json.missed_call_at }}",
+            "updated_at": "={{ $json.missed_call_at }}"
+          }
+        },
+        "options": {}
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "t-followup-schedule",
+      "name": "Daily Follow-up Scan (09:00)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -40,
+        840
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * *"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "g-read-crm-followup",
+      "name": "Read Active CRM Leads",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        220,
+        840
+      ],
+      "parameters": {
+        "resource": "sheet",
+        "operation": "read",
+        "documentId": {
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "mode": "list",
+          "value": "CRM"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "status",
+              "lookupValue": "active"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "c-due-followups",
+      "name": "Compute Due Follow-ups",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        840
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "\nconst STAGE_DAYS = [1, 3, 7, 14];\nconst STOP_STATUSES = ['booked', 'replied', 'opted_out', 'cancelled'];\nconst now = Date.now();\nconst due = [];\n\nfor (const item of $input.all()) {\n  const lead = item.json;\n  if (STOP_STATUSES.includes(lead.status)) continue;\n  const stage = Number(lead.follow_up_stage || 0);\n  if (stage >= STAGE_DAYS.length) continue;\n  const lastContact = lead.last_contact ? new Date(lead.last_contact).getTime() : 0;\n  const daysSince = (now - lastContact) / (1000 * 60 * 60 * 24);\n  if (daysSince >= STAGE_DAYS[stage]) {\n    due.push({ ...lead, next_stage: stage + 1, days_since_contact: Math.floor(daysSince) });\n  }\n}\nreturn due.map(d => ({ json: d }));\n"
+      }
+    },
+    {
+      "id": "if-has-due",
+      "name": "Has Due Follow-ups?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        720,
+        840
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "d1",
+              "leftValue": "={{ $json.lead_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "h-gemini-followup",
+      "name": "Gemini Generate Follow-up",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        980,
+        780
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "={{$credentials.geminiApi.apiKey}}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ generationConfig: { temperature: 0.4, responseMimeType: 'application/json' }, contents: [ { parts: [ { text: \"You are an Australian real estate agent writing a brief, warm follow-up email for stage \" + $json.next_stage + \" of a nurture sequence (1=day1,2=day3,3=day7,4=day14). Return ONLY JSON: { subject: string, body: string }. Lead: \" + JSON.stringify($json) }] }] }) }}",
+        "options": {
+          "timeout": 25000
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "m-send-followup",
+      "name": "Send Follow-up Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1240,
+        780
+      ],
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "sendTo": "={{ $('Compute Due Follow-ups').item.json.email }}",
+        "subject": "={{ (() => { try { const t = JSON.parse(($json.candidates[0].content.parts[0].text||'{}').replace(/```json/g,'').replace(/```/g,'').trim()); return t.subject; } catch(e) { return 'Following up on your enquiry'; } })() }}",
+        "emailType": "text",
+        "message": "={{ (() => { try { const t = JSON.parse(($json.candidates[0].content.parts[0].text||'{}').replace(/```json/g,'').replace(/```/g,'').trim()); return t.body; } catch(e) { return 'Hi, just checking in on your recent enquiry - let us know if you have any questions!'; } })() }}",
+        "options": {}
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "g-update-followup-stage",
+      "name": "Update CRM Follow-up Stage",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1500,
+        780
+      ],
+      "parameters": {
+        "resource": "sheet",
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "mode": "list",
+          "value": "CRM"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "matchingColumns": [
+            "lead_id"
+          ],
+          "value": {
+            "lead_id": "={{ $('Compute Due Follow-ups').item.json.lead_id }}",
+            "follow_up_stage": "={{ $('Compute Due Follow-ups').item.json.next_stage }}",
+            "last_contact": "={{ new Date().toISOString() }}",
+            "updated_at": "={{ new Date().toISOString() }}"
+          }
+        },
+        "options": {}
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "w-listing",
+      "name": "Listing Content Request Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        1740,
+        840
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "generate-listing",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "c-listing-prompt",
+      "name": "Prepare Listing Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2000,
+        840
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst body = $json.body || $json;\nreturn { json: {\n  address: body.address || '', suburb: body.suburb || '', property_type: body.property_type || '',\n  bedrooms: body.bedrooms || '', bathrooms: body.bathrooms || '', car_spaces: body.car_spaces || '',\n  key_features: body.key_features || '', price_guide: body.price_guide || '', agent_name: body.agent_name || ''\n}};\n"
+      }
+    },
+    {
+      "id": "h-gemini-listing",
+      "name": "Gemini Generate Listing Content",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2260,
+        840
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "={{$credentials.geminiApi.apiKey}}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ generationConfig: { temperature: 0.5, responseMimeType: 'application/json' }, contents: [ { parts: [ { text: \"You are an Australian real estate copywriter. Using these property details, return ONLY JSON matching exactly this schema: { listing_title: string, seo_title: string, meta_description: string, property_description: string, facebook_post: string, instagram_caption: string, linkedin_post: string, google_business_post: string, email_campaign_copy: string, brochure_copy: string, short_description: string, luxury_version: string, investor_version: string, first_home_buyer_version: string }. Details: \" + JSON.stringify($json) }] }] }) }}",
+        "options": {
+          "timeout": 25000
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "c-parse-listing",
+      "name": "Parse Listing Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2520,
+        840
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst details = $('Prepare Listing Prompt').item.json;\nlet parsed = {};\ntry {\n  const rawText = ($json.candidates && $json.candidates[0] && $json.candidates[0].content &&\n    $json.candidates[0].content.parts && $json.candidates[0].content.parts[0] &&\n    $json.candidates[0].content.parts[0].text) || '{}';\n  parsed = JSON.parse(rawText.replace(/```json/g, '').replace(/```/g, '').trim());\n} catch (e) { parsed = {}; }\n\nreturn { json: { address: details.address, suburb: details.suburb, agent_name: details.agent_name,\n  listing_title: parsed.listing_title || '', seo_title: parsed.seo_title || '',\n  meta_description: parsed.meta_description || '', property_description: parsed.property_description || '',\n  facebook_post: parsed.facebook_post || '', instagram_caption: parsed.instagram_caption || '',\n  linkedin_post: parsed.linkedin_post || '', google_business_post: parsed.google_business_post || '',\n  email_campaign_copy: parsed.email_campaign_copy || '', brochure_copy: parsed.brochure_copy || '',\n  short_description: parsed.short_description || '', luxury_version: parsed.luxury_version || '',\n  investor_version: parsed.investor_version || '', first_home_buyer_version: parsed.first_home_buyer_version || '',\n  generated_at: new Date().toISOString() }};\n"
+      }
+    },
+    {
+      "id": "g-log-listing",
+      "name": "Log Listing Content (Sheets)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2780,
+        840
+      ],
+      "parameters": {
+        "resource": "sheet",
+        "operation": "append",
+        "documentId": {
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "mode": "list",
+          "value": "Listings"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "address": "={{ $json.address }}",
+            "suburb": "={{ $json.suburb }}",
+            "agent_name": "={{ $json.agent_name }}",
+            "listing_title": "={{ $json.listing_title }}",
+            "seo_title": "={{ $json.seo_title }}",
+            "property_description": "={{ $json.property_description }}",
+            "facebook_post": "={{ $json.facebook_post }}",
+            "instagram_caption": "={{ $json.instagram_caption }}",
+            "linkedin_post": "={{ $json.linkedin_post }}",
+            "generated_at": "={{ $json.generated_at }}"
+          }
+        },
+        "options": {}
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "c-log-analytics",
+      "name": "Format Analytics Event",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -40,
+        1540
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nreturn { json: {\n  event_type: $json.lead_tier ? 'lead_qualified' : ($json.listing_title ? 'listing_generated' : 'event'),\n  lead_tier: $json.lead_tier || '', channel: $json.channel || $json.source || '',\n  logged_at: new Date().toISOString()\n}};\n"
+      }
+    },
+    {
+      "id": "g-append-analytics",
+      "name": "Append Analytics Log",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        220,
+        1540
+      ],
+      "parameters": {
+        "resource": "sheet",
+        "operation": "append",
+        "documentId": {
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "mode": "list",
+          "value": "Analytics"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "event_type": "={{ $json.event_type }}",
+            "lead_tier": "={{ $json.lead_tier }}",
+            "channel": "={{ $json.channel }}",
+            "logged_at": "={{ $json.logged_at }}"
+          }
+        },
+        "options": {}
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "t-analytics-summary",
+      "name": "Daily Analytics Summary (Schedule)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -40,
+        1680
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 7 * * *"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "g-read-analytics",
+      "name": "Read Analytics Log",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        220,
+        1680
+      ],
+      "parameters": {
+        "resource": "sheet",
+        "operation": "read",
+        "documentId": {
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "mode": "list",
+          "value": "Analytics"
+        },
+        "options": {}
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "c-compute-summary",
+      "name": "Compute Analytics Summary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        1680
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "\nconst rows = $input.all().map(i => i.json);\nconst totalLeads = rows.filter(r => r.event_type === 'lead_qualified').length;\nconst hot = rows.filter(r => r.lead_tier === 'hot').length;\nconst warm = rows.filter(r => r.lead_tier === 'warm').length;\nconst cold = rows.filter(r => r.lead_tier === 'cold').length;\nconst listingsGenerated = rows.filter(r => r.event_type === 'listing_generated').length;\nconst missedCalls = rows.filter(r => r.event_type === 'missed_call_recovery').length;\n\nreturn [{ json: {\n  summary_date: new Date().toISOString().slice(0, 10),\n  total_leads: totalLeads, hot_leads: hot, warm_leads: warm, cold_leads: cold,\n  conversion_rate: totalLeads ? Math.round((hot / totalLeads) * 100) : 0,\n  listings_generated: listingsGenerated, missed_calls_logged: missedCalls\n}}];\n"
+      }
+    },
+    {
+      "id": "g-write-summary",
+      "name": "Write Summary (Dashboard Sheet)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        740,
+        1680
+      ],
+      "parameters": {
+        "resource": "sheet",
+        "operation": "append",
+        "documentId": {
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "mode": "list",
+          "value": "Dashboard"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "summary_date": "={{ $json.summary_date }}",
+            "total_leads": "={{ $json.total_leads }}",
+            "hot_leads": "={{ $json.hot_leads }}",
+            "warm_leads": "={{ $json.warm_leads }}",
+            "cold_leads": "={{ $json.cold_leads }}",
+            "conversion_rate": "={{ $json.conversion_rate }}",
+            "listings_generated": "={{ $json.listings_generated }}",
+            "missed_calls_logged": "={{ $json.missed_calls_logged }}"
+          }
+        },
+        "options": {}
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "e-error-trigger",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        1740,
+        1540
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "c-format-error",
+      "name": "Format Error Details",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2000,
+        1540
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst exec = $json.execution || {};\nconst wf = $json.workflow || {};\nreturn { json: {\n  error_message: exec.error ? exec.error.message : 'Unknown error',\n  failed_node: exec.lastNodeExecuted || 'unknown',\n  failed_workflow: wf.name || 'RealEstate_AI_OS',\n  occurred_at: new Date().toISOString()\n}};\n"
+      }
+    },
+    {
+      "id": "g-log-error",
+      "name": "Log Error (Sheets)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2260,
+        1540
+      ],
+      "parameters": {
+        "resource": "sheet",
+        "operation": "append",
+        "documentId": {
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "mode": "list",
+          "value": "ErrorLog"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "error_message": "={{ $json.error_message }}",
+            "failed_node": "={{ $json.failed_node }}",
+            "failed_workflow": "={{ $json.failed_workflow }}",
+            "occurred_at": "={{ $json.occurred_at }}"
+          }
+        },
+        "options": {}
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "h-error-slack",
+      "name": "Alert Ops - Slack",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2520,
+        1540
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://hooks.slack.com/services/REPLACE/WITH/YOURWEBHOOK",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ text: ':rotating_light: Workflow error in ' + $json.failed_workflow + ' at node ' + $json.failed_node + ': ' + $json.error_message }) }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "connections": {
+    "Website Chat Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalize + Validate Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contact Form Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalize + Validate Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalize + Validate Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Messenger Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalize + Validate Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Voice Receptionist Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalize + Validate Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize + Validate Input": {
+      "main": [
+        [
+          {
+            "node": "Gemini Qualify Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Qualify Lead": {
+      "main": [
+        [
+          {
+            "node": "Parse + Validate AI Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse + Validate AI Response": {
+      "main": [
+        [
+          {
+            "node": "Spam Filter Gate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Spam Filter Gate": {
+      "main": [
+        [
+          {
+            "node": "Search CRM by Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Search CRM by Phone",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Spam Lead (Sheets)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search CRM by Email": {
+      "main": [
+        [
+          {
+            "node": "Match Duplicate + Assign Agent + Build CRM Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search CRM by Phone": {
+      "main": [
+        [
+          {
+            "node": "Match Duplicate + Assign Agent + Build CRM Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Match Duplicate + Assign Agent + Build CRM Record": {
+      "main": [
+        [
+          {
+            "node": "Upsert CRM Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upsert CRM Record": {
+      "main": [
+        [
+          {
+            "node": "Route by Lead Tier",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Format Analytics Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Lead Tier": {
+      "main": [
+        [
+          {
+            "node": "Notify Agent - Gmail (Hot)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notify Agent - Slack (Hot)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Warm Lead Offer Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Cold Lead Nurture Tag",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Agent - Gmail (Hot)": {
+      "main": [
+        [
+          {
+            "node": "Merge Routing Outputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Agent - Slack (Hot)": {
+      "main": [
+        [
+          {
+            "node": "Merge Routing Outputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Warm Lead Offer Message": {
+      "main": [
+        [
+          {
+            "node": "Merge Routing Outputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cold Lead Nurture Tag": {
+      "main": [
+        [
+          {
+            "node": "Merge Routing Outputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Routing Outputs": {
+      "main": [
+        [
+          {
+            "node": "Filter: Needs Booking?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter: Needs Booking?": {
+      "main": [
+        [
+          {
+            "node": "Check Calendar Availability",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Calendar Availability": {
+      "main": [
+        [
+          {
+            "node": "Compute Next 3 Available Slots",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compute Next 3 Available Slots": {
+      "main": [
+        [
+          {
+            "node": "Send Slot Options Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Booking Confirmation Webhook": {
+      "main": [
+        [
+          {
+            "node": "Validate Booking Selection",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Booking Selection": {
+      "main": [
+        [
+          {
+            "node": "Create Calendar Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Calendar Event": {
+      "main": [
+        [
+          {
+            "node": "Send Booking Confirmation Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Booking Confirmation Email": {
+      "main": [
+        [
+          {
+            "node": "Update CRM - Booked",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reschedule or Cancel Webhook": {
+      "main": [
+        [
+          {
+            "node": "Reschedule or Cancel?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reschedule or Cancel?": {
+      "main": [
+        [
+          {
+            "node": "Update Calendar Event",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Cancel Calendar Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Calendar Event": {
+      "main": [
+        [
+          {
+            "node": "Update CRM - Reschedule/Cancel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cancel Calendar Event": {
+      "main": [
+        [
+          {
+            "node": "Update CRM - Reschedule/Cancel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Missed Call Webhook": {
+      "main": [
+        [
+          {
+            "node": "Send Recovery SMS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Recovery SMS": {
+      "main": [
+        [
+          {
+            "node": "Prepare Missed Call CRM Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Missed Call CRM Update": {
+      "main": [
+        [
+          {
+            "node": "Log Missed Call (CRM)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily Follow-up Scan (09:00)": {
+      "main": [
+        [
+          {
+            "node": "Read Active CRM Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Active CRM Leads": {
+      "main": [
+        [
+          {
+            "node": "Compute Due Follow-ups",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compute Due Follow-ups": {
+      "main": [
+        [
+          {
+            "node": "Has Due Follow-ups?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Due Follow-ups?": {
+      "main": [
+        [
+          {
+            "node": "Gemini Generate Follow-up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Generate Follow-up": {
+      "main": [
+        [
+          {
+            "node": "Send Follow-up Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Follow-up Email": {
+      "main": [
+        [
+          {
+            "node": "Update CRM Follow-up Stage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Listing Content Request Webhook": {
+      "main": [
+        [
+          {
+            "node": "Prepare Listing Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Listing Prompt": {
+      "main": [
+        [
+          {
+            "node": "Gemini Generate Listing Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Generate Listing Content": {
+      "main": [
+        [
+          {
+            "node": "Parse Listing Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Listing Content": {
+      "main": [
+        [
+          {
+            "node": "Log Listing Content (Sheets)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Analytics Event": {
+      "main": [
+        [
+          {
+            "node": "Append Analytics Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily Analytics Summary (Schedule)": {
+      "main": [
+        [
+          {
+            "node": "Read Analytics Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Analytics Log": {
+      "main": [
+        [
+          {
+            "node": "Compute Analytics Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compute Analytics Summary": {
+      "main": [
+        [
+          {
+            "node": "Write Summary (Dashboard Sheet)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Format Error Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Error Details": {
+      "main": [
+        [
+          {
+            "node": "Log Error (Sheets)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Error (Sheets)": {
+      "main": [
+        [
+          {
+            "node": "Alert Ops - Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": false
+  }
+}
