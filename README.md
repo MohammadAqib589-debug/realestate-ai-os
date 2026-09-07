@@ -1,471 +1,552 @@
-# realestate-ai-os
-AI-powered real estate automation system for lead intake, qualification, CRM, routing, booking, follow-ups, and analytics.
-# 🏠 RealEstate AI OS
+# RealEstate AI OS
 
-### AI-Powered Real Estate Lead Management & Automation System
+### AI-Powered Real Estate Lead Lifecycle Automation
 
-**RealEstate AI OS** is a modular AI automation system built in **n8n** to automate the real-estate lead lifecycle — from multi-channel lead intake and AI qualification to CRM management, agent routing, appointment booking, follow-ups, content generation, analytics, and error handling.
+An end-to-end **n8n automation system** designed to manage the real estate lead lifecycle — from multi-channel lead intake and AI qualification to CRM management, routing, appointment booking, follow-ups, listing content generation, analytics, and error handling.
 
-The project demonstrates how AI, APIs, business logic, and automation can be combined into a complete operational system rather than a collection of disconnected workflows.
-
-> **Project Type:** Independent / Self-Initiated Project
-> **Platform:** n8n
-> **Focus:** AI Automation · CRM Automation · Lead Management · Business Process Automation
+![RealEstate AI OS Architecture](architecture/overview.png)
 
 ---
 
-## 🎯 The Problem
+## Overview
 
-Real-estate businesses often receive leads from multiple channels while relying on manual processes to:
+Real estate businesses receive leads from multiple channels, but the information often arrives fragmented across forms, chat, messaging platforms, and calls.
 
-* Review incoming inquiries
-* Determine lead quality
-* Identify duplicate leads
-* Assign leads to agents
-* Update CRM records
-* Respond to high-intent prospects
-* Schedule appointments
-* Recover missed calls
-* Follow up with unresponsive prospects
-* Create property marketing content
-* Track operational performance
+RealEstate AI OS creates a unified automation layer that processes these leads through a structured lifecycle.
 
-As lead volume increases, these disconnected processes can result in slower response times, inconsistent qualification, missed follow-ups, duplicate records, and unnecessary manual work.
-
-**RealEstate AI OS was designed as a unified automation architecture for this workflow.**
-
----
-
-# ⚙️ System Architecture
+### Core Flow
 
 ```text
-                    MULTI-CHANNEL LEAD INTAKE
-                              │
-            ┌─────────────────┼─────────────────┐
-            │                 │                 │
-       Website/Form       WhatsApp         Messenger
-            │                 │                 │
-            └─────────────────┼─────────────────┘
-                              │
-                    Voice / Other Channels
-                              │
-                              ▼
-                     INPUT NORMALIZATION
-                              │
-                              ▼
-                       DATA VALIDATION
-                              │
-                              ▼
-                     AI QUALIFICATION
-                              │
-                    ┌─────────┴─────────┐
-                    │                   │
-               Spam Gate          Valid Lead
-                                        │
-                                        ▼
-                              DUPLICATE DETECTION
-                                        │
-                                        ▼
-                                AGENT ASSIGNMENT
-                                        │
-                                        ▼
-                                   CRM UPSERT
-                                        │
-                                        ▼
-                              LEAD ROUTING ENGINE
-                          ┌────────┬────────┐
-                          │        │        │
-                         HOT      WARM     COLD
-                          │        │        │
-                          ▼        ▼        ▼
-                       Alerts   Follow-up  Nurture
-                          │
-                          ▼
-                       BOOKING
-                          │
-                          ▼
-                  FOLLOW-UP ENGINE
-                          │
-                          ▼
-                      ANALYTICS
+Lead Sources
+     ↓
+Multi-Channel Intake
+     ↓
+Data Normalization
+     ↓
+AI Qualification
+     ↓
+Spam Detection
+     ↓
+Duplicate Detection
+     ↓
+CRM Update
+     ↓
+Lead Routing
+     ↓
+Agent Notification
+     ↓
+Appointment Booking
+     ↓
+Follow-Up Automation
+     ↓
+Analytics & Reporting
+# RealEstate AI OS
 
-              GLOBAL ERROR HANDLING / RECOVERY
-```
+### AI-Powered Real Estate Lead Lifecycle Automation
+
+An end-to-end **n8n automation system** designed to manage the real estate lead lifecycle — from multi-channel lead intake and AI qualification to CRM management, routing, appointment booking, follow-ups, listing content generation, analytics, and error handling.
+
+![RealEstate AI OS Architecture](architecture/overview.png)
 
 ---
 
-# 🧩 Core Modules
+## Overview
 
-## 01 — Multi-Channel Lead Intake
+Real estate businesses receive leads from multiple channels, but the information often arrives fragmented across forms, chat, messaging platforms, and calls.
 
-Incoming leads from different channels are converted into a consistent internal lead structure before entering the rest of the system.
+RealEstate AI OS creates a unified automation layer that processes these leads through a structured lifecycle.
 
-Supported intake paths include:
-
-* Website chat
-* Contact forms
-* WhatsApp
-* Messenger
-* Voice receptionist / call workflows
-
-The module performs **input normalization and validation** so downstream workflows receive predictable data regardless of where the lead originated.
-
----
-
-## 02 — AI Lead Qualification
-
-Validated leads are passed through an AI-powered qualification layer.
-
-The system evaluates incoming inquiries and converts AI output into structured data that can be used by later workflow modules.
-
-The qualification layer includes:
-
-* Structured AI output
-* Lead scoring
-* Lead classification
-* Spam detection
-* Score validation / clamping
-* Deterministic AI configuration
-* Strict JSON handling
-
-Leads can then be classified into categories such as:
+### Core Flow
 
 ```text
+Lead Sources
+     ↓
+Multi-Channel Intake
+     ↓
+Data Normalization
+     ↓
+AI Qualification
+     ↓
+Spam Detection
+     ↓
+Duplicate Detection
+     ↓
+CRM Update
+     ↓
+Lead Routing
+     ↓
+Agent Notification
+     ↓
+Appointment Booking
+     ↓
+Follow-Up Automation
+     ↓
+Analytics & Reporting
+
+The system is designed around a combination of:
+
+AI decision-making
+Deterministic business logic
+API integrations
+Webhooks
+CRM operations
+Automated communication
+Scheduling
+Error handling
+The Problem
+
+Real estate teams can lose opportunities when:
+
+Leads arrive through different channels
+Lead information is inconsistent
+Agents manually qualify every inquiry
+High-value leads are not identified quickly
+Duplicate leads enter the CRM
+Follow-ups are forgotten
+Appointment scheduling requires back-and-forth communication
+Missed calls are not recovered
+Lead activity is difficult to track
+
+RealEstate AI OS addresses these problems by connecting the major stages of the lead lifecycle into one automation architecture.
+
+Solution
+
+The system receives lead information from multiple sources, converts it into a standardized structure, analyzes the lead using AI, applies deterministic business rules, updates the CRM, routes the lead to the appropriate workflow, and continues the lifecycle automatically.
+
+The architecture is modular so individual components can be adapted or replaced without rebuilding the entire system.
+
+Architecture
+High-Level Architecture
+                         ┌─────────────────────┐
+                         │    Lead Sources     │
+                         │                     │
+                         │ Website Chat        │
+                         │ Contact Form        │
+                         │ WhatsApp             │
+                         │ Messenger            │
+                         │ Voice Receptionist   │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │   Intake Layer      │
+                         │                     │
+                         │ Validation          │
+                         │ Normalization       │
+                         │ Unified Lead Schema  │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │   AI Qualification  │
+                         │                     │
+                         │ Intent              │
+                         │ Urgency             │
+                         │ Sentiment            │
+                         │ Lead Score           │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │   Lead Protection   │
+                         │                     │
+                         │ Spam Detection      │
+                         │ Duplicate Detection │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │    CRM Layer        │
+                         │                     │
+                         │ Lead Record         │
+                         │ Status              │
+                         │ Assignment           │
+                         │ Follow-up State     │
+                         └──────────┬──────────┘
+                                    │
+                    ┌───────────────┼───────────────┐
+                    ▼               ▼               ▼
+                 HOT             WARM            COLD
+                    │               │               │
+                    ▼               ▼               ▼
+              Agent Alert       Follow-Up       Nurturing
+                    │
+                    ▼
+            Appointment Booking
+                    │
+                    ▼
+             Calendar Event
+                    │
+                    ▼
+             Lead Lifecycle
+                    │
+                    ▼
+          Analytics & Event Logs
+
+For the visual implementation, see:
+
+Architecture Diagram
+
+Core Modules
+1. Multi-Channel Intake
+
+Accepts leads from different entry points and converts incoming information into a consistent lead structure.
+
+Supported channel architecture includes:
+
+Website chat
+Contact forms
+WhatsApp
+Messenger
+Voice receptionist
+2. AI Lead Qualification
+
+The AI analyzes incoming lead information and extracts structured qualification data.
+
+Example fields include:
+
+Intent
+Property Type
+Suburb
+Budget
+Bedrooms
+Bathrooms
+Timeline
+Finance Status
+Sentiment
+Urgency
+Confidence
+Lead Score
+
+The workflow uses structured AI output rather than relying entirely on free-form responses.
+
+3. Spam Detection
+
+Incoming leads can be evaluated for spam probability before entering the main lead-processing lifecycle.
+
+This provides an additional filtering layer before downstream automation.
+
+4. Duplicate Detection & CRM
+
+The system checks incoming information against existing lead records using multiple identifying fields.
+
+When appropriate, the CRM record can be updated rather than creating another duplicate entry.
+
+5. Agent Assignment
+
+Qualified leads can be routed to an appropriate agent based on the configured business logic.
+
+This creates a bridge between automated qualification and human sales activity.
+
+6. Lead Routing & Notifications
+
+Leads are categorized into:
+
 HOT
 WARM
 COLD
-SPAM
-```
 
-This allows later automation to respond differently depending on lead quality.
+Hot leads can trigger immediate internal notifications through configured communication channels.
 
----
+7. Appointment Booking
 
-## 03 — Duplicate Detection & CRM
+The booking system can:
 
-Before creating a new CRM record, the system checks existing data for potential duplicates.
+Identify available appointment slots
+Offer available options
+Wait for customer confirmation
+Create the calendar event
+Update the lead record
 
-The workflow uses multiple lead fields rather than relying on a single identifier.
+Rescheduling and cancellation flows are also supported by the architecture.
 
-After duplicate handling, the system can:
+8. Missed Call Recovery
 
-* Assign an appropriate agent
-* Create new CRM records
-* Update existing records
-* Preserve lead qualification data
-* Maintain a consistent CRM schema
+The system includes a recovery path for missed calls so that potential opportunities do not simply disappear after an unanswered call.
 
-This prevents unnecessary duplicate records while keeping lead information synchronized.
+9. Follow-Up Sequence Engine
 
----
+The system can scan lead records and determine when another follow-up is required.
 
-## 04 — Intelligent Lead Routing
+The documented sequence includes:
 
-Qualified leads are automatically routed according to their classification.
-
-### 🔥 Hot Leads
-
-High-priority leads can trigger immediate actions such as:
-
-* Agent notification
-* Email alerts
-* Slack alerts
-* Booking workflow
-
-### 🟡 Warm Leads
-
-Warm prospects can enter structured follow-up sequences.
-
-### 🔵 Cold Leads
-
-Lower-intent leads can be retained for longer-term nurturing rather than consuming immediate agent attention.
-
-This allows human attention to be focused on the prospects most likely to require it.
-
----
-
-## 05 — Appointment Booking
-
-The booking module automates appointment scheduling.
-
-Instead of relying entirely on manual coordination, the workflow can:
-
-1. Generate available appointment options
-2. Offer the next available slots
-3. Receive customer confirmation
-4. Create the appointment/event
-5. Support rescheduling
-6. Support cancellation
-
-This connects lead qualification directly with the next step in the sales process.
-
----
-
-## 06 — Missed Call Recovery
-
-Missed calls can represent high-intent leads.
-
-The recovery workflow is designed to automatically respond when a call cannot be answered, allowing the system to continue the lead journey instead of allowing the inquiry to disappear.
-
-This creates another automated path back into the lead-management process.
-
----
-
-## 07 — Automated Follow-Up Engine
-
-The system includes a scheduled follow-up sequence for leads that have not yet converted.
-
-Example sequence:
-
-```text
 Day 1
-  ↓
 Day 3
-  ↓
 Day 7
-  ↓
 Day 14
-```
 
-Before continuing the sequence, the system checks whether the prospect has:
+Follow-up activity can stop when a lead:
 
-* Replied
-* Booked an appointment
-* Opted out
+Replies
+Books an appointment
+Opts out
+Reaches another configured stopping condition
+10. AI Follow-Up Generation
 
-If one of these conditions is met, unnecessary follow-ups are stopped.
+AI can be used to generate context-aware follow-up communication based on the lead's available information and lifecycle state.
 
----
+11. AI Listing Writer
 
-## 08 — AI Listing Writer
+The system includes an AI-powered property content generation module.
 
-RealEstate AI OS also contains an AI-powered property content generation module.
+The documented implementation generates:
 
-Property information can be transformed into multiple marketing content variants for different use cases.
+13 content variants per property
 
-The workflow generates **13 content variants per property**, reducing the repetitive work involved in preparing listing and promotional content.
+This allows property information to be transformed into multiple marketing-oriented content formats.
 
----
+12. Analytics & Event Logging
 
-## 09 — Analytics
+Important workflow events can be recorded throughout the lead lifecycle.
 
-Operational events are logged so system activity can be tracked and summarized.
+Example events:
 
-The analytics architecture includes:
+lead_received
+lead_qualified
+lead_rejected
+lead_routed
+agent_notified
+followup_sent
+appointment_requested
+appointment_booked
+appointment_cancelled
+lead_replied
+lead_opted_out
+workflow_error
 
-* Event logging
-* Scheduled analytics processing
-* Summary rollups
-* Workflow activity tracking
+Scheduled summaries can then be generated from the collected event data.
 
-This provides visibility into what the automation system is doing instead of operating as a completely opaque pipeline.
+13. Global Error Handling
 
----
+A centralized error-handling architecture is included to capture failures from different parts of the system.
 
-## 10 — Global Error Handling
+Potential failure points include:
 
-Automation systems need to account for failures as well as successful executions.
+API requests
+AI responses
+Invalid input
+CRM operations
+Email delivery
+Calendar operations
+Messaging integrations
+Authentication failures
 
-RealEstate AI OS includes a global error-handling layer designed to catch workflow failures and provide a centralized path for handling automation errors.
+The goal is to prevent individual workflow failures from becoming invisible.
 
-The overall architecture also incorporates:
+AI Architecture
 
-* Input validation
-* Structured AI responses
-* Conditional routing
-* Data validation
-* Failure handling
+AI is used where probabilistic reasoning provides value.
 
----
+Examples:
 
-# 🤖 AI Components
+Lead qualification
+Intent extraction
+Sentiment analysis
+Urgency detection
+Lead scoring
+Follow-up generation
+Property listing content generation
 
-AI is used as part of the workflow's decision layer rather than as a standalone chatbot.
+Deterministic logic remains responsible for operations that should behave predictably.
 
-Examples include:
+Examples:
 
-### Lead Qualification
-
-```text
-Lead Data
-   ↓
-AI Analysis
-   ↓
-Structured JSON
-   ↓
 Validation
-   ↓
-Score + Classification
-   ↓
-Automation Decision
-```
+Routing
+Duplicate checks
+State management
+CRM updates
+Scheduling operations
+Error handling
 
-### Property Content Generation
+This creates a hybrid architecture:
 
-```text
-Property Data
-   ↓
-AI Generation
-   ↓
-Multiple Content Variants
-   ↓
-Structured Output
-```
+             AI
+              │
+     ┌────────┴────────┐
+     │                 │
+Reasoning         Structured Output
+     │                 │
+     └────────┬────────┘
+              ▼
+       Deterministic Logic
+              │
+     ┌────────┼────────┐
+     ▼        ▼        ▼
+    CRM    Routing   Actions
+Technology Stack
+Technology	Purpose
+n8n	Workflow orchestration
+Google Gemini	AI qualification and generation
+Google Sheets	CRM-style data storage
+Gmail	Email communication
+Google Calendar	Appointment scheduling
+Slack	Internal notifications
+Twilio	Communication and missed-call workflows
+Webhooks	Multi-channel event ingestion
+APIs	External service integration
+Reliability & Workflow Design
 
-The AI output is combined with deterministic workflow logic before downstream actions are executed.
+The architecture focuses on making automation predictable and maintainable.
 
----
+Key principles include:
 
-# 🔌 Integrations & Technologies
+Input validation
+Structured AI responses
+Deterministic routing
+Duplicate protection
+Error handling
+Modular workflow design
+State tracking
+External service separation
+Credential isolation
 
-| Technology           | Purpose                              |
-| -------------------- | ------------------------------------ |
-| **n8n**              | Workflow orchestration               |
-| **LLMs / AI APIs**   | Qualification & content generation   |
-| **Webhooks**         | Multi-channel intake                 |
-| **Gmail**            | Email communication & alerts         |
-| **Slack**            | Agent/team notifications             |
-| **CRM / Data Store** | Lead management                      |
-| **REST APIs**        | External service integration         |
-| **JSON**             | Structured data exchange             |
-| **JavaScript**       | Data transformation & workflow logic |
+AI is not treated as the sole source of truth for every operation.
 
----
+Instead, AI output is passed into deterministic workflow logic before important downstream actions occur.
 
-# 🔄 Example Lead Journey
-
-A typical high-intent lead can move through the system like this:
-
-```text
-Customer submits inquiry
-        ↓
-Webhook receives lead
-        ↓
-Lead data normalized
-        ↓
-Input validated
-        ↓
-AI evaluates lead
-        ↓
-Lead receives score/classification
-        ↓
-Spam check
-        ↓
-Duplicate search
-        ↓
-Agent assigned
-        ↓
-CRM updated
-        ↓
-HOT lead detected
-        ↓
-Agent notified
-        ↓
-Booking options offered
-        ↓
-Appointment confirmed
-        ↓
-CRM / analytics updated
-```
-
----
-
-# 🛡️ Reliability Considerations
-
-The project was designed with more than the successful execution path in mind.
-
-Reliability considerations include:
-
-* Input validation
-* Spam filtering
-* Duplicate detection
-* Strict AI JSON output
-* Score validation
-* Conditional routing
-* Follow-up stop conditions
-* CRM upsert logic
-* Global error handling
-
-These mechanisms help prevent unreliable AI output or incomplete data from blindly triggering downstream actions.
-
----
-
-# 📁 Repository Structure
-
-```text
+Repository Structure
 realestate-ai-os/
 │
-├── README.md
-│
 ├── architecture/
-│   ├── overview.png
-│   ├── lead-intake.png
-│   ├── qualification-routing.png
-│   ├── booking.png
-│   └── follow-up-engine.png
-│
-├── workflows/
-│   └── sanitized workflow files
+│   └── overview.png
 │
 ├── docs/
 │   ├── architecture.md
 │   ├── modules.md
 │   └── setup.md
 │
-└── examples/
-    ├── sample-input.json
-    └── sample-output.json
-```
+├── examples/
+│   ├── sample-input.json
+│   └── sample-output.json
+│
+├── workflows/
+│   └── realestate-ai-os-sanitized.json
+│
+└── README.md
+Documentation
+Technical Architecture
 
----
+Detailed explanation of the system architecture:
 
-# 🔐 Security
+docs/architecture.md
 
-Public workflow files in this repository are intended to contain **no production credentials or private API keys**.
+Module Documentation
 
-Credentials should be configured separately inside n8n or through the appropriate environment/credential management system.
+Detailed breakdown of the individual automation modules:
 
-```text
-❌ API keys
-❌ Access tokens
-❌ Passwords
-❌ Production credentials
+docs/modules.md
 
-✅ Credential placeholders
-✅ Example configuration
-✅ Sanitized workflow logic
-```
+Setup Guide
 
----
+Import, credential configuration, deployment, security, and configuration instructions:
 
-# 🚧 Project Status
+docs/setup.md
 
-**Portfolio / Independent Project**
+Workflow
 
-This project was built as a self-initiated automation system to explore and demonstrate end-to-end AI automation architecture for real-estate operations.
+Sanitized n8n workflow:
 
-The architecture can be adapted depending on the CRM, communication channels, AI provider, booking platform, and operational requirements of a deployment.
+realestate-ai-os-sanitized.json
 
----
+Examples
 
-# 👨‍💻 Developer
+Example input and structured output:
 
-**Mohammad Aqib**
+examples/
 
-AI Automation Developer
+Example
+Input
+{
+  "name": "Sarah Mitchell",
+  "email": "sarah@example.com",
+  "source": "website_chat",
+  "message": "I'm looking to buy a 3 bedroom house in Parramatta with a budget around AUD 900,000.",
+  "property_type": "house",
+  "suburb": "Parramatta",
+  "budget": "AUD 900,000",
+  "timeline": "within 2 months"
+}
+Processing
+Incoming Lead
+     ↓
+Normalize
+     ↓
+Validate
+     ↓
+AI Qualification
+     ↓
+Spam Check
+     ↓
+Duplicate Check
+     ↓
+CRM
+     ↓
+Lead Score
+     ↓
+Routing
+Example Result
+Lead Score: 86
+Lead Tier: HOT
+Intent: Buyer
+Urgency: High
+Confidence: 94%
 
-Focused on building AI-powered workflow systems using **n8n, LLMs, APIs, webhooks, CRM integrations, and business automation logic**.
+Next Action:
+Offer inspection slots
 
----
+The complete example is available in the examples/ directory.
 
-## ⭐ More Projects
+Security
 
-Additional AI automation projects are available on my GitHub profile, including:
+This repository contains a sanitized workflow.
 
-* AI Revenue OS
-* AI Lead Finder
-* AI Competitor Intelligence
+Production credentials, API keys, tokens, customer information, and private CRM data should never be committed to GitHub.
 
----
+Credentials should be configured through n8n's credential management system.
 
-### Built with n8n + AI + APIs ⚡
+Example data in this repository is fictional.
+
+Project Status
+
+Status: Portfolio / Independent Engineering Project
+
+This project demonstrates the design and implementation of a production-oriented AI automation architecture using n8n.
+
+It is presented as an independent project and is not represented as client work.
+
+What This Project Demonstrates
+
+This project demonstrates practical experience with:
+
+AI automation architecture
+n8n workflow engineering
+LLM integration
+Structured AI outputs
+API integrations
+Webhook architecture
+CRM automation
+Lead qualification
+Business process automation
+Appointment scheduling
+Automated follow-ups
+Notification systems
+Analytics
+Error handling
+Workflow security
+Modular system design
+Developer
+
+Mohammad Aqib
+
+AI Automation Developer focused on building AI-powered workflows, agents, and business automation systems.
+
+Core focus:
+
+n8n
+AI Agents
+LLMs
+APIs
+Webhooks
+CRM Automation
+Business Process Automation
