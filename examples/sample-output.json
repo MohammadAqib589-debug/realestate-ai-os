@@ -1,0 +1,20 @@
+{
+  "lead_id": "example-lead-001",
+  "intent": "buyer",
+  "property_type": "house",
+  "suburb": "Parramatta",
+  "budget": "AUD 900,000",
+  "bedrooms": "3",
+  "bathrooms": "2",
+  "timeline": "within 2 months",
+  "finance_approved": "unknown",
+  "sentiment": "positive",
+  "urgency": "high",
+  "spam_probability": 0.01,
+  "confidence": 0.94,
+  "lead_score": 86,
+  "lead_tier": "hot",
+  "next_action": "offer inspection slots",
+  "reasoning": "Clear buying intent, defined budget and property requirements, and a near-term timeline.",
+  "ai_reply": "Thanks Sarah. I can help with suitable 3-bedroom properties in Parramatta. Would you like to view the next available inspection times?"
+}
